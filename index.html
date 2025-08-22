@@ -253,6 +253,8 @@
             background: var(--gradient);
             color: white;
             box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+            width: 100%;
+            justify-content: center;
         }
 
         .btn-primary:hover {
@@ -264,6 +266,8 @@
             background-color: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             color: white;
+            width: 100%;
+            justify-content: center;
         }
 
         .btn-secondary:hover {
@@ -312,6 +316,7 @@
             gap: 5px;
         }
 
+        /* Desktop layout - horizontal scrolling */
         .content-row {
             display: flex;
             overflow-x: auto;
@@ -324,10 +329,15 @@
             display: none;
         }
 
+        /* Mobile layout - vertical grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 15px 0;
+        }
+
         .content-card {
-            flex: 0 0 auto;
-            width: 280px;
-            height: 420px; /* Fixed height */
             border-radius: 12px;
             overflow: hidden;
             position: relative;
@@ -339,13 +349,13 @@
         }
 
         .content-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             z-index: 10;
         }
 
         .card-img {
             width: 100%;
-            height: 160px;
+            height: 200px;
             object-fit: cover;
         }
 
@@ -522,9 +532,53 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1200px) {
-            nav {
+        @media (min-width: 769px) {
+            .content-grid {
+                display: none;
+            }
+            
+            .content-card {
+                width: 280px;
+                height: 420px;
+            }
+            
+            .hero-actions {
+                flex-direction: row;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-row {
+                display: none;
+            }
+            
+            .content-grid {
+                display: grid;
+            }
+            
+            .header-actions {
                 gap: 15px;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-desc {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 15px;
             }
         }
 
@@ -546,37 +600,6 @@
 
             .search-box input {
                 width: 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-actions {
-                gap: 15px;
-            }
-            
-            .search-box input:focus {
-                width: 100%;
-            }
-            
-            .hero {
-                height: 70vh;
-            }
-            
-            .hero-title {
-                font-size: 2.2rem;
-            }
-            
-            .hero-desc {
-                font-size: 15px;
-            }
-            
-            .btn {
-                padding: 12px 25px;
-                font-size: 15px;
-            }
-            
-            .content-card {
-                width: 240px;
             }
         }
 
@@ -603,17 +626,6 @@
             
             .hero-info {
                 justify-content: center;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .content-card {
-                width: 200px;
-                height: 380px;
             }
             
             .footer-content {
@@ -683,6 +695,8 @@
             <h2 class="section-title">Trending Now</h2>
             <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
         </div>
+        
+        <!-- Desktop layout - horizontal scrolling -->
         <div class="content-row">
             <div class="content-card" data-movie="Avatar: The Way of Water" data-download="https://1drv.ms/u/s!abcdefghijklmno1" data-language="English">
                 <img src="https://images.unsplash.com/photo-1612034786641-3cae700cabd0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
@@ -740,16 +754,62 @@
                     </a>
                 </div>
             </div>
-            <div class="content-card" data-movie="Top Gun: Maverick" data-download="https://1drv.ms/u/s!abcdefghijklmno5" data-language="English">
-                <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+        </div>
+        
+        <!-- Mobile layout - vertical grid -->
+        <div class="content-grid">
+            <div class="content-card" data-movie="Avatar: The Way of Water" data-download="https://1drv.ms/u/s!abcdefghijklmno1" data-language="English">
+                <img src="https://images.unsplash.com/photo-1612034786641-3cae700cabd0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
                 <div class="card-content">
-                    <h3 class="card-title">Top Gun: Maverick</h3>
+                    <h3 class="card-title">Avatar: The Way of Water</h3>
                     <div class="card-info">
                         <span>2022</span>
                         <span class="card-language">EN</span>
                     </div>
-                    <p class="card-desc">After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOP GUN's elite graduates on a mission that demands the ultimate sacrifice.</p>
-                    <a href="https://1drv.ms/u/s!abcdefghijklmno5" class="download-btn" download>
+                    <p class="card-desc">Jake Sully lives with his newfound family formed on the planet of Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their planet.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno1" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Oppenheimer" data-download="https://1drv.ms/u/s!abcdefghijklmno2" data-language="English">
+                <img src="https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Oppenheimer</h3>
+                    <div class="card-info">
+                        <span>2023</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno2" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="The Batman" data-download="https://1drv.ms/u/s!abcdefghijklmno3" data-language="English">
+                <img src="https://images.unsplash.com/photo-1640143951132-711c6f9c2e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">The Batman</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno3" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Dune" data-download="https://1drv.ms/u/s!abcdefghijklmno4" data-language="English">
+                <img src="https://images.unsplash.com/photo-1630000204345-ccffa972d941?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Dune</h3>
+                    <div class="card-info">
+                        <span>2021</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">Feature adaptation of Frank Herbert's science fiction novel about the son of a noble family entrusted with the protection of the most valuable asset and most vital element in the galaxy.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno4" class="download-btn" download>
                         <i class="fas fa-download"></i> Download
                     </a>
                 </div>
@@ -763,6 +823,8 @@
             <h2 class="section-title">International Movies</h2>
             <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
         </div>
+        
+        <!-- Desktop layout - horizontal scrolling -->
         <div class="content-row">
             <div class="content-card" data-movie="Parasite" data-download="https://1drv.ms/u/s!abcdefghijklmno6" data-language="Korean">
                 <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
@@ -820,16 +882,62 @@
                     </a>
                 </div>
             </div>
-            <div class="content-card" data-movie="Life is Beautiful" data-download="https://1drv.ms/u/s!abcdefghijklmno10" data-language="Italian">
-                <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+        </div>
+        
+        <!-- Mobile layout - vertical grid -->
+        <div class="content-grid">
+            <div class="content-card" data-movie="Parasite" data-download="https://1drv.ms/u/s!abcdefghijklmno6" data-language="Korean">
+                <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
                 <div class="card-content">
-                    <h3 class="card-title">Life is Beautiful</h3>
+                    <h3 class="card-title">Parasite</h3>
                     <div class="card-info">
-                        <span>1997</span>
-                        <span class="card-language">IT</span>
+                        <span>2019</span>
+                        <span class="card-language">KR</span>
                     </div>
-                    <p class="card-desc">When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.</p>
-                    <a href="https://1drv.ms/u/s!abcdefghijklmno10" class="download-btn" download>
+                    <p class="card-desc">Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno6" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="RRR" data-download="https://1drv.ms/u/s!abcdefghijklmno7" data-language="Hindi">
+                <img src="https://images.unsplash.com/photo-1642626286445-5a2ceb44bf50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">RRR</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">HI</span>
+                    </div>
+                    <p class="card-desc">A fictitious story about two legendary revolutionaries and their journey away from home before they started fighting for their country in the 1920s.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno7" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="The Platform" data-download="https://1drv.ms/u/s!abcdefghijklmno8" data-language="Spanish">
+                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">The Platform</h3>
+                    <div class="card-info">
+                        <span>2019</span>
+                        <span class="card-language">ES</span>
+                    </div>
+                    <p class="card-desc">A vertical prison with one cell per level. Two people per cell. One only food platform and two minutes per day to feed from up to down. An endless nightmare trapped in The Hole.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno8" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Train to Busan" data-download="https://1drv.ms/u/s!abcdefghijklmno9" data-language="Korean">
+                <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Train to Busan</h3>
+                    <div class="card-info">
+                        <span>2016</span>
+                        <span class="card-language">KR</span>
+                    </div>
+                    <p class="card-desc">While a zombie virus breaks out in South Korea, passengers struggle to survive on the train from Seoul to Busan.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno9" class="download-btn" download>
                         <i class="fas fa-download"></i> Download
                     </a>
                 </div>
