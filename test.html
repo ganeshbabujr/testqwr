@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineFlix - Premium Movie Downloads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #e50914;
+            --dark: #141414;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #808080;
+            --card-bg: #181818;
+            --header-height: 70px;
+            --accent: #00a8ff;
+            --gradient: linear-gradient(135deg, #e50914 0%, #b8072f 100%);
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            transition: background-color 0.3s;
+            height: var(--header-height);
+        }
+
+        header.scrolled {
+            background-color: var(--dark);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            color: var(--primary);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-dot {
+            color: var(--accent);
+            font-size: 32px;
+            margin: 0 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            background-color: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 15px 10px 40px;
+            border-radius: 25px;
+            width: 220px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: rgba(0,0,0,0.8);
+            width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            z-index: 2;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: var(--header-height);
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            background: linear-gradient(45deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 15px;
+            color: var(--light);
+        }
+
+        .rating {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .hero-desc {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+            color: #e0e0e0;
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            border: none;
+            font-size: 16px;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.25);
+        }
+
+        /* Content Rows */
+        .content-section {
+            padding: 30px 5%;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 4px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        .view-all {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .content-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 15px 5px;
+            scrollbar-width: none;
+        }
+
+        .content-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .content-card {
+            flex: 0 0 auto;
+            width: 280px;
+            height: 420px; /* Fixed height */
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s;
+            background-color: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .card-language {
+            background-color: rgba(0, 168, 255, 0.15);
+            color: var(--accent);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #b3b3b3;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin-top: auto;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.5);
+        }
+
+        /* Download notification */
+        .download-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 50px;
+            box-shadow: 0 5px 25px rgba(229, 9, 20, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .download-notification.show {
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            padding: 40px 5%;
+            margin-top: 50px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            color: var(--light);
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--gradient);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--gray);
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            nav {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            nav {
+                display: none;
+            }
+
+            .search-container {
+                position: static;
+                transform: none;
+                flex: 1;
+                margin: 0 20px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-actions {
+                gap: 15px;
+            }
+            
+            .search-box input:focus {
+                width: 100%;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-desc {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 15px;
+            }
+            
+            .content-card {
+                width: 240px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 22px;
+            }
+            
+            .hero {
+                height: 60vh;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-info {
+                justify-content: center;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .content-card {
+                width: 200px;
+                height: 380px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">
+            <span class="logo-text">CINE</span>
+            <span class="logo-dot">•</span>
+            <span class="logo-text" style="color: white;">FLIX</span>
+        </a>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search movies...">
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="User">
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero" style="background: url('https://images.unsplash.com/photo-1635863138275-d9b33299680a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;">
+        <div class="hero-content">
+            <span class="hero-badge">NEW RELEASE</span>
+            <h1 class="hero-title">John Wick: Chapter 4</h1>
+            <div class="hero-info">
+                <span>2023</span>
+                <span>•</span>
+                <span>2h 49m</span>
+                <span>•</span>
+                <span>Action, Crime, Thriller</span>
+                <span>•</span>
+                <span class="rating"><i class="fas fa-star"></i> 8.5</span>
+            </div>
+            <p class="hero-desc">
+                John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.
+            </p>
+            <div class="hero-actions">
+                <a href="https://1drv.ms/u/s!abcdefghijklmno" class="btn btn-primary" download>
+                    <i class="fas fa-download"></i> Download Now
+                </a>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Add to List
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trending Now -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Trending Now</h2>
+            <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="content-row">
+            <div class="content-card" data-movie="Avatar: The Way of Water" data-download="https://1drv.ms/u/s!abcdefghijklmno1" data-language="English">
+                <img src="https://images.unsplash.com/photo-1612034786641-3cae700cabd0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Avatar: The Way of Water</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">Jake Sully lives with his newfound family formed on the planet of Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their planet.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno1" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Oppenheimer" data-download="https://1drv.ms/u/s!abcdefghijklmno2" data-language="English">
+                <img src="https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Oppenheimer</h3>
+                    <div class="card-info">
+                        <span>2023</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno2" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="The Batman" data-download="https://1drv.ms/u/s!abcdefghijklmno3" data-language="English">
+                <img src="https://images.unsplash.com/photo-1640143951132-711c6f9c2e6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">The Batman</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno3" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Dune" data-download="https://1drv.ms/u/s!abcdefghijklmno4" data-language="English">
+                <img src="https://images.unsplash.com/photo-1630000204345-ccffa972d941?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Dune</h3>
+                    <div class="card-info">
+                        <span>2021</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">Feature adaptation of Frank Herbert's science fiction novel about the son of a noble family entrusted with the protection of the most valuable asset and most vital element in the galaxy.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno4" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Top Gun: Maverick" data-download="https://1drv.ms/u/s!abcdefghijklmno5" data-language="English">
+                <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Top Gun: Maverick</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">EN</span>
+                    </div>
+                    <p class="card-desc">After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOP GUN's elite graduates on a mission that demands the ultimate sacrifice.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno5" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- International Movies -->
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">International Movies</h2>
+            <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="content-row">
+            <div class="content-card" data-movie="Parasite" data-download="https://1drv.ms/u/s!abcdefghijklmno6" data-language="Korean">
+                <img src="https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Parasite</h3>
+                    <div class="card-info">
+                        <span>2019</span>
+                        <span class="card-language">KR</span>
+                    </div>
+                    <p class="card-desc">Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno6" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="RRR" data-download="https://1drv.ms/u/s!abcdefghijklmno7" data-language="Hindi">
+                <img src="https://images.unsplash.com/photo-1642626286445-5a2ceb44bf50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">RRR</h3>
+                    <div class="card-info">
+                        <span>2022</span>
+                        <span class="card-language">HI</span>
+                    </div>
+                    <p class="card-desc">A fictitious story about two legendary revolutionaries and their journey away from home before they started fighting for their country in the 1920s.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno7" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="The Platform" data-download="https://1drv.ms/u/s!abcdefghijklmno8" data-language="Spanish">
+                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">The Platform</h3>
+                    <div class="card-info">
+                        <span>2019</span>
+                        <span class="card-language">ES</span>
+                    </div>
+                    <p class="card-desc">A vertical prison with one cell per level. Two people per cell. One only food platform and two minutes per day to feed from up to down. An endless nightmare trapped in The Hole.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno8" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Train to Busan" data-download="https://1drv.ms/u/s!abcdefghijklmno9" data-language="Korean">
+                <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Train to Busan</h3>
+                    <div class="card-info">
+                        <span>2016</span>
+                        <span class="card-language">KR</span>
+                    </div>
+                    <p class="card-desc">While a zombie virus breaks out in South Korea, passengers struggle to survive on the train from Seoul to Busan.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno9" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+            <div class="content-card" data-movie="Life is Beautiful" data-download="https://1drv.ms/u/s!abcdefghijklmno10" data-language="Italian">
+                <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Movie" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Life is Beautiful</h3>
+                    <div class="card-info">
+                        <span>1997</span>
+                        <span class="card-language">IT</span>
+                    </div>
+                    <p class="card-desc">When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.</p>
+                    <a href="https://1drv.ms/u/s!abcdefghijklmno10" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Notification -->
+    <div class="download-notification" id="downloadNotification">
+        <i class="fas fa-download"></i>
+        <span id="downloadMessage">Starting download...</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">Series</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">My List</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Copyright</a></li>
+                    <li><a href="#">DMCA</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help & Support</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Download Help</a></li>
+                    <li><a href="#">Device Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Connect With Us</h3>
+                <p style="color: var(--gray); margin-bottom: 20px;">Follow us on social media for updates and news.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2023 CineFlix. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Download functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadButtons = document.querySelectorAll('.download-btn, .btn-primary');
+            const notification = document.getElementById('downloadNotification');
+            const downloadMessage = document.getElementById('downloadMessage');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const movieTitle = this.closest('.content-card') ? 
+                        this.closest('.content-card').getAttribute('data-movie') : 
+                        "John Wick: Chapter 4";
+                    
+                    // Show download notification
+                    downloadMessage.textContent = `Downloading ${movieTitle}...`;
+                    notification.classList.add('show');
+                    
+                    // Simulate download process
+                    setTimeout(() => {
+                        // In a real implementation, this would trigger the actual download
+                        // For demonstration, we'll just show a success message
+                        downloadMessage.textContent = `${movieTitle} downloaded successfully!`;
+                        
+                        // After 3 seconds, hide the notification
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                        }, 3000);
+                    }, 2000);
+                    
+                    // In a real implementation, you would trigger the download like this:
+                    // window.location.href = this.href;
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const contentCards = document.querySelectorAll('.content-card');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                contentCards.forEach(card => {
+                    const title = card.getAttribute('data-movie').toLowerCase();
+                    const language = card.getAttribute('data-language').toLowerCase();
+                    
+                    if (title.includes(searchTerm) || language.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Make search bar centered
+            function centerSearchBar() {
+                const searchContainer = document.querySelector('.search-container');
+                const header = document.querySelector('header');
+                
+                if (window.innerWidth > 992) {
+                    searchContainer.style.position = 'absolute';
+                    searchContainer.style.left = '50%';
+                    searchContainer.style.transform = 'translateX(-50%)';
+                } else {
+                    searchContainer.style.position = 'static';
+                    searchContainer.style.transform = 'none';
+                }
+            }
+            
+            // Initial call and event listener for window resize
+            centerSearchBar();
+            window.addEventListener('resize', centerSearchBar);
+        });
+    </script>
+</body>
+</html>
